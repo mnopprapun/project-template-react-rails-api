@@ -14,7 +14,7 @@ function SignInForm(props) {
 
     const handleSubmit = (evt) => {
         evt.preventDefault()
-        fetch(`http://localhost:3000/users`,{crossDomain: true}, {withCredentials: true}, {
+        fetch(`http://localhost:3000/users`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

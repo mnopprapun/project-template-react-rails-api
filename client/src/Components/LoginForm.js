@@ -1,11 +1,25 @@
 import React, {useState} from 'react'
-import {Redirect} from 'react-router-dom';
+import { Link } from "react-router-dom";
+import { Button } from './Button';
+//import HomePage from '../Pages/HomePage';
 
 
 function LoginForm(props){
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
-    
+    //const history = useHistory();
+
+    // async function handleClickEvent(event) {
+    //     event.preventDefault();
+      
+    //     try {
+    //       await Auth.signIn(email, password);
+    //       userHasAuthenticated(true);
+    //       history.push("/");
+    //     } catch (e) {
+    //       alert(e.message);
+    //     }
+    //   }
     const handleUsernameChange = (evt) => {
         setUsername(evt.target.value)
     }
@@ -13,8 +27,9 @@ function LoginForm(props){
     const handlePasswordChange = (evt) => {
         setPassword(evt.target.value)
     }
-
+    
     const handleSubmit = (evt) => {
+        
         evt.preventDefault()
         fetch(`http://localhost:3000/users`, {
             method: "POST",
@@ -33,17 +48,20 @@ function LoginForm(props){
         .then(data => {
             localStorage.setItem("token", data.jwt)
             props.handleLogin(data.user)
-            //props.history.push("/HomePage")
+            //history.push('/homepage')
+            
         })
         setUsername("")
         setPassword("")
+        
     }
     const formDivStyle = {
         margin: "auto",
         padding: "20px",
         width: "80%"
     }
-
+    
+    
 	// const onSubmit = () => { 
 	// 	if(userFound){
 	// 	return  <Redirect  to="/home/" />
@@ -62,8 +80,9 @@ function LoginForm(props){
                     <label>Password</label>
                     <input value={password} onChange={handlePasswordChange} type="password" placeholder="password"/>
                 </div>
-                
+                <Link to='/Calendar'>
                 <button class="ui button" type="submit" >Login</button>
+                </Link>
             </form>
         </div>
         </div>

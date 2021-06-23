@@ -1,6 +1,6 @@
 import React from "react";
 import Calendar from "./components/Calendar";
-import "./App.css";
+//import "./App.css";
 
 
 class HomePage extends React.Component {
