@@ -25,6 +25,9 @@ ActiveRecord::Schema.define(version: 2021_06_22_154757) do
 
   create_table "events", force: :cascade do |t|
     t.integer "calendar_id"
+    t.string "title"
+    t.datetime "start"
+    t.datetime "end"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

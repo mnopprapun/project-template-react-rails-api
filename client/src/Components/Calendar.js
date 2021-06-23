@@ -1,93 +1,58 @@
-import React, { useState } from "react";
-//import dateFns from "date-fns";
-import { format, startOfWeek, addDays, startOfMonth, endOfMonth, endOfWeek, isSameMonth, isSameDay, parse, subMonths, addMonths } from "date-fns";
-import "./Calendar.css";
-const Calendar = () => {
-const [currentDate, setCurrentDate] = useState(new Date());
-const [selectedDate, setSelectedDate] = useState(new Date());
-const header = () => {
-const dateFormat = "MMMM yyyy";
-return (
-   <div className="header row flex-middle">
-      <div className="column col-start">
-         <div className="icon" onClick={prevMonth}>
-            chevron_left
-         </div>
-      </div>
-      <div className="column col-center">
-         <span>{format(currentDate, dateFormat)}</span>
-      </div>
-      <div className="column col-end">
-         <div className="icon" onClick={nextMonth}>
-            chevron_right
-         </div>
-      </div>
-   </div>
-   );
-};
-const days = () => {
-const dateFormat = "ddd";
-const days = [];
-let startDate = startOfWeek(currentDate);
-for (let i = 0; i < 7; i++) {
-      days.push(
-         <div className="column col-center" key={i}>
-         {format(addDays(startDate, i), dateFormat)}
-         </div>
-      );
-   }
-   return <div className="days row">{days}</div>;
-};
-const cells = () => {
-const monthStart = startOfMonth(currentDate);
-const monthEnd = endOfMonth(monthStart);
-const startDate = startOfWeek(monthStart);
-const endDate = endOfWeek(monthEnd);
-const dateFormat = "d";
-const rows = [];
-let days = [];
-let day = startDate;
-let formattedDate = "";
-while (day <= endDate) {
-   for (let i = 0; i < 7; i++) {
-   formattedDate = format(day, dateFormat);
-   const cloneDay = day;
-days.push(
-      <div 
-       className={`column cell ${!isSameMonth(day, monthStart)
-       ? "disabled" : isSameDay(day, selectedDate) 
-       ? "selected" : "" }`} 
-       key={day} 
-       onClick={() => onDateClick(parse(cloneDay))}
-       > 
-       <span className="number">{formattedDate}</span>
-       <span className="bg">{formattedDate}</span>
-     </div>
-     );
-   day = addDays(day, 1);
-  }
-rows.push(
-      <div className="row" key={day}> {days} </div>
-    );
-   days = [];
- }
- return <div className="body">{rows}</div>;
-}
-const nextMonth = () => {
-   setCurrentDate(addMonths(currentDate, 1));
-};
-const prevMonth = () => {
-   setCurrentDate(subMonths(currentDate, 1));
-};
-const onDateClick = day => {
-setSelectedDate(day);
-}
-return (
-   <div className="calendar">
-      <div>{header()}</div>
-      <div>{days()}</div>
-      <div>{cells()}</div>
-   </div>
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import addEvent from '@fullcalendar/addEvent';
+import axios from 'axios';
+import React, {useState, useEffect} from 'react';
+
+// const events = [
+//   {
+//     id: 1,
+//     title: 'event 1',
+//     start: '2021-06-14T10:00:00',
+//     end: '2021-06-14T12:00:00',
+//   },
+//   {
+//     id: 2,
+//     title: 'event 2',
+//     start: '2021-06-16T13:00:00',
+//     end: '2021-06-16T18:00:00',
+//   },
+//   { id: 3, title: 'event 3', start: '2021-06-17', end: '2021-06-20' },
+// ];
+
+function Calendar() {
+	const [events, addEvent] = useState([]);
+
+
+	  const addNewEvent = (newEvent) => {
+		axios.post('http://localhost:3000/events', newEvent)
+		.then((newEvent) => addEvent([...events, newEvent]))
+	  }
+
+  return (
+    <div className="App">
+      <FullCalendar
+        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+        initialView="dayGridMonth"
+        headerToolbar={{
+          center: 'dayGridMonth,timeGridWeek,timeGridDay new',
+        }}
+        customButtons={{
+          new: {
+            text: 'new',
+            click: () => console.log('new event'),
+          },
+        }}
+        events={events}
+        eventColor="red"
+        nowIndicator
+        dateClick={(e) => console.log(e.dateStr)}
+        eventClick={(e) => console.log(e.event.id)}
+      />
+    </div>
   );
-};
+}
+
 export default Calendar;

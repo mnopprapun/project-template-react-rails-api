@@ -28,7 +28,7 @@ function App() {
       .then(resp => resp.json())
       .then(data => {
         setUser(data)
-        // console.log(data)
+         console.log(data)
       })
     }
   }, [])
@@ -107,7 +107,3 @@ function App() {
 }
 
 export default App;
-
-
-
-

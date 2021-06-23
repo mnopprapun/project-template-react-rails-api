@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   get "/auto_login", to: "auth#auto_login"
   get "/user_is_authed", to: "auth#user_is_authed"
 
+  resource :events, only: [:index, :create, :destroy]
 
   # Routing logic: fallback requests for React Router.
   # Leave this here to help deploy your app later!

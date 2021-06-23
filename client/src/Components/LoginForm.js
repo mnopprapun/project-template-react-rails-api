@@ -31,7 +31,7 @@ function LoginForm(props){
     const handleSubmit = (evt) => {
         
         evt.preventDefault()
-        fetch(`http://localhost:3000/users`, {
+        fetch(`http://localhost:3000/login`, {
             method: "POST",
 
             crossDomain: true, 
@@ -75,21 +75,19 @@ function LoginForm(props){
         <div>
             <div style={formDivStyle}>
             <h1>Log In</h1>
-            <form class="ui form" onSubmit={handleSubmit}>
-                <div class="field">
+            <form className="ui form" onSubmit={handleSubmit}>
+                <div className="field">
                     <label>Username</label>
                     <input value={username} onChange={handleUsernameChange} type="text" placeholder="username"/>
                 </div>
-                <div class="field">
+                <div className="field">
                     <label>Password</label>
                     <input value={password} onChange={handlePasswordChange} type="password" placeholder="password"/>
                 </div>
 
                 <Link to='/Calendar'>
-                <button class="ui button" type="submit" >Login</button>
+                <button className="ui button" type="submit" >Login</button>
                 </Link>
-  
-                <button class="ui button" type="submit" >Login</button>
 
             </form>
         </div>
