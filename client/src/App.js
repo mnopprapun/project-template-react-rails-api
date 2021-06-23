@@ -6,7 +6,12 @@ import LoginForm from './Components/LoginForm'
 import Calendar from './Components/Calendar'
 import Home from './Home';
 import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
-
+// import {
+//   BrowserRouter as Router,
+//   Switch,
+//   Route,
+//   Link
+// } from "react-router-dom";
 
 function App() {
   const [user, setUser] = useState({})

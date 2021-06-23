@@ -33,8 +33,10 @@ function LoginForm(props){
         evt.preventDefault()
         fetch(`http://localhost:3000/users`, {
             method: "POST",
+
             crossDomain: true, 
             withCredentials: true,
+
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "application/json"
@@ -48,8 +50,9 @@ function LoginForm(props){
         .then(data => {
             localStorage.setItem("token", data.jwt)
             props.handleLogin(data.user)
-            //history.push('/homepage')
-            
+
+			props.history.push("/HomePage")
+
         })
         setUsername("")
         setPassword("")
@@ -60,11 +63,12 @@ function LoginForm(props){
         padding: "20px",
         width: "80%"
     }
-    
-    
+
 	// const onSubmit = () => { 
 	// 	if(userFound){
 	// 	return  <Redirect  to="/home/" />
+
+
 	// }}
 
     return(
@@ -80,13 +84,17 @@ function LoginForm(props){
                     <label>Password</label>
                     <input value={password} onChange={handlePasswordChange} type="password" placeholder="password"/>
                 </div>
+
                 <Link to='/Calendar'>
                 <button class="ui button" type="submit" >Login</button>
                 </Link>
+  
+                <button class="ui button" type="submit" >Login</button>
+
             </form>
         </div>
         </div>
     )
 } 
-
+// onClick={this.onSubmit}
 export default LoginForm

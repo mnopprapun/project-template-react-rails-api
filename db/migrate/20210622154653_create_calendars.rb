@@ -4,7 +4,6 @@ class CreateCalendars < ActiveRecord::Migration[6.1]
       t.date :date
       t.string :events
       t.integer :user_id
-
       t.timestamps
     end
   end
