@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@syncfusion/ej2-react-calendars": "^19.1.66",
+    "@types/date-fns": "^2.6.0",
     "@types/jest": "^26.0.23",
     "@types/node": "^15.12.4",
     "@types/react": "^17.0.11",
