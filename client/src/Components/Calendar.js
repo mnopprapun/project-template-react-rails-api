@@ -1,83 +1,121 @@
-import FullCalendar from '@fullcalendar/react';
+import FullCalendar, {formatDate} from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 //import addEvent from '@fullcalendar/addEvent';
 import axios from 'axios';
-import React, {useState, useEffect} from 'react';
-//import ModalFormEvent from './ModalFormEvent';
-
-// const events = [
-//   {
-//     id: 1,
-//     title: 'event 1',
-//     start: '2021-06-14T10:00:00',
-//     end: '2021-06-14T12:00:00',
-//   },
-//   {
-//     id: 2,
-//     title: 'event 2',
-//     start: '2021-06-16T13:00:00',
-//     end: '2021-06-16T18:00:00',
-//   },
-//   { id: 3, title: 'event 3', start: '2021-06-17', end: '2021-06-20' },
-// ];
-
-function Calendar() {
-	const [events, addEvent] = useState([]);
-  //const [modalIsOpen, setmodalIsOpen] = useState(true)
-  //const [modalIsClosed, setmodalIsClosed] = useState(false)
+import React, { Component } from 'react';
 
 
-	  const addNewEvent = (newEvent) => {
-		axios.post('http://localhost:3000/events', newEvent)
-		.then((newEvent) => addEvent([...events, newEvent]))
+const eventURL = "http://localhost3000/Event"
+
+class Calendar extends Component {
+  state = {
+    events: [],
+      title:"",
+      start:"",
+      end:""
+  }
+
+handleEvents = (eventData) =>{
+  this.setState({
+    events: eventData
+  })
+}
+	  
+componentDidMount = () => {
+  axios.get(eventURL, {crossDomain: true}, {withCredentials: true})
+  .then(response => this.handleEvents(response.data.event))
+}
+
+addNewEvent = (newEvent) => {
+		axios.post(eventURL, newEvent)
+		.then(() => this.setState({events: [...this.state.events, newEvent] }))
 	  }
-
-  return (
+  
+    handleWeekendsToggle = () => {
+      this.setState({
+        weekendsVisible: !this.state.weekendsVisible
+      })
+    }
+  
+    handleDateSelect = (selectInfo) => {
+      let title = prompt('Please enter a new title for your event')
+      let calendarApi = selectInfo.view.calendar
+  
+      calendarApi.unselect() // clear date selection
+  
+      if (title) {
+        calendarApi.addEvent({
+          title,
+          start: selectInfo.startStr,
+          end: selectInfo.endStr,
+          allDay: selectInfo.allDay
+        })
+      }
+    }
+  
+    handleEventClick = (clickInfo) => {
+      if ((`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
+        clickInfo.event.remove()
+      }
+    }
+  
+    handleEvents = (events) => {
+      this.setState({
+        currentEvents: events
+      })
+    }
+  
+  
+  
+   renderEventContent= (eventInfo) => {
+    return (
+      <>
+        <b>{eventInfo.timeText}</b>
+        <i>{eventInfo.event.title}</i>
+      </>
+    )
+  }
+  
+ renderSidebarEvent = (event) => {
+    return (
+      <li key={event.id}>
+        <b>{formatDate(event.start, {year: 'numeric', month: 'short', day: 'numeric'})}</b>
+        <i>{event.title}</i>
+      </li>
+    )
+  }
+  
+render (){
+  return(
     <div className="App">
       <FullCalendar
-        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-        initialView="dayGridMonth"
-        headerToolbar={{
-          center: 'dayGridMonth,timeGridWeek,timeGridDay new',
-        }}
-        // customButtons={{
-        //   new: {
-        //     text: 'new event',
-        //     click: () => 
-        //     // click: () => console.log('new event'),
-        //   },
-        // }}
-        
-        customButtons={{
-          addEventButton: {
-            text: 'add event...',
-            click: function() {
-              var dateStr = prompt('Enter a date in YYYY-MM-DD format');
-              var date = new Date(dateStr + 'T00:00:00'); // will be in local time
-              if (!isNaN(date.valueOf())) { // valid?
-                {addEvent}({
-                  title: 'dynamic event',
-                  start: date,
-                  allDay: true
-                });
-                alert('Great. Now, update your database...');
-              } else {
-                alert('Invalid date.');
-              }
-            }
-          }
-          }}
-          
-        events={events}
-        eventColor="red"
-        nowIndicator
-        dateClick={(e) => console.log(e.dateStr)}
-        eventClick={(e) => console.log(e.event.id)}
-      />
+            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+            headerToolbar={{
+              left: 'prev,next today',
+              center: 'title',
+              right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            }}
+            initialView='dayGridMonth'
+            editable={true}
+            selectable={true}
+            selectMirror={true}
+            dayMaxEvents={true}
+            weekends={this.state.weekendsVisible}
+            initialEvents={this.events} // alternatively, use the `events` setting to fetch from a feed
+            select={this.handleDateSelect}
+            eventContent={this.renderEventContent} // custom render function
+            eventClick={this.handleEventClick}
+            eventsSet={this.handleEvents} // called after events are initialized/added/changed/removed
+            /* you can update a remote database when these fire:
+            eventAdd={function(){}}
+            eventChange={function(){}}
+            eventRemove={function(){}}
+            */
+          />
     </div>
   );
 }
-
+}
 export default Calendar;
