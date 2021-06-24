@@ -31,6 +31,7 @@ function LoginForm(props){
     const handleSubmit = (evt) => {
         
         evt.preventDefault()
+        const token = localStorage.getItem("token")
         fetch(`http://localhost:3000/login`, {
             method: "POST",
 
@@ -39,7 +40,8 @@ function LoginForm(props){
 
             headers: {
                 "Content-Type": "application/json",
-                "Accept": "application/json"
+                "Accept": "application/json",
+                "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify({
                 username,

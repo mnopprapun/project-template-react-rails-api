@@ -7,7 +7,7 @@ import axios from 'axios';
 import React, { Component } from 'react';
 
 
-const eventURL = "http://localhost3000/Event"
+const eventURL = "http://localhost:3000/events"
 
 class Calendar extends Component {
   state = {
@@ -29,10 +29,22 @@ componentDidMount = () => {
 }
 
 addNewEvent = (newEvent) => {
-		axios.post(eventURL, newEvent)
-		.then(() => this.setState({events: [...this.state.events, newEvent] }))
-	  }
-  
+  const token = localStorage.getItem("token")
+  let postOption ={
+    method: "PATCH",
+    headers: {
+      "Content-Type": 'application/json',
+      Accepts: 'application/json',
+      "Authorization": `Bearer ${token}`
+    },
+    body: JSON.stringify(newEvent)
+    }
+
+    fetch("http://localhost:3000/events", postOption)
+}
+		// axios.post(eventURL, newEvent)
+		// .then(() => this.setState({events: [...this.state.events, newEvent] }))
+	  
     handleWeekendsToggle = () => {
       this.setState({
         weekendsVisible: !this.state.weekendsVisible
@@ -50,7 +62,7 @@ addNewEvent = (newEvent) => {
           title,
           start: selectInfo.startStr,
           end: selectInfo.endStr,
-          allDay: selectInfo.allDay
+          //allDay: selectInfo.allDay
         })
       }
     }
@@ -117,5 +129,35 @@ render (){
     </div>
   );
 }
+// renderSidebar=()=> {
+//   return (
+//     <div className='demo-app-sidebar'>
+//       <div className='demo-app-sidebar-section'>
+//         <h2>Instructions</h2>
+//         <ul>
+//           <li>Select dates and you will be prompted to create a new event</li>
+//           <li>Drag, drop, and resize events</li>
+//           <li>Click an event to delete it</li>
+//         </ul>
+//       </div>
+//       <div className='demo-app-sidebar-section'>
+//         <label>
+//           <input
+//             type='checkbox'
+//             checked={this.state.weekendsVisible}
+//             onChange={this.handleWeekendsToggle}
+//           ></input>
+//           toggle weekends
+//         </label>
+//       </div>
+//       <div className='demo-app-sidebar-section'>
+//         <h2>All Events ({this.state.currentEvents.length})</h2>
+//         <ul>
+//           {this.state.currentEvents.map(this.renderSidebarEvent)}
+//         </ul>
+//       </div>
+//     </div>
+//   )
+// }
 }
 export default Calendar;

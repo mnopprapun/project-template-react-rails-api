@@ -11,9 +11,12 @@ Rails.application.routes.draw do
   get "/auto_login", to: "auth#auto_login"
   get "/user_is_authed", to: "auth#user_is_authed"
 
-  resource :events, only: [:index, :create, :destroy]
+  #  resources :events
+  get "/events", to: "events#index"
+  post "/events", to: "events#create"
+  delete "/events", to: "events#destroy"
 
   # Routing logic: fallback requests for React Router.
   # Leave this here to help deploy your app later!
-  get "*path", to: "fallback#index", constraints: ->(req) { !req.xhr? && req.format.html? }
+  # get "*path", to: "fallback#index", constraints: ->(req) { !req.xhr? && req.format.html? }
 end
