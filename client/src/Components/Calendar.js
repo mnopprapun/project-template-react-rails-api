@@ -31,16 +31,18 @@ componentDidMount = () => {
 addNewEvent = (newEvent) => {
   const token = localStorage.getItem("token")
   let postOption ={
-    method: "PATCH",
+    method: "POST",
     headers: {
       "Content-Type": 'application/json',
-      Accepts: 'application/json',
+      "Accepts": 'application/json',
       "Authorization": `Bearer ${token}`
     },
     body: JSON.stringify(newEvent)
     }
 
     fetch("http://localhost:3000/events", postOption)
+    .then(res => res.json())
+    .then(console.log)
 }
 		// axios.post(eventURL, newEvent)
 		// .then(() => this.setState({events: [...this.state.events, newEvent] }))
@@ -58,6 +60,12 @@ addNewEvent = (newEvent) => {
       calendarApi.unselect() // clear date selection
   
       if (title) {
+        this.addNewEvent({
+          calendar_id: //calendar id from backend
+          title,
+          start: selectInfo.startStr,
+          end: selectInfo.endStr,
+        })
         calendarApi.addEvent({
           title,
           start: selectInfo.startStr,
