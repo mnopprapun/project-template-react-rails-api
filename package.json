@@ -11,6 +11,10 @@
     "heroku-postbuild": "npm run clean && npm run build && npm run deploy"
   },
   "dependencies": {
+    "@fullcalendar/daygrid": "^5.8.0",
+    "@fullcalendar/interaction": "^5.8.0",
+    "@fullcalendar/react": "^5.8.0",
+    "@fullcalendar/timegrid": "^5.8.0",
     "@syncfusion/ej2-react-calendars": "^19.1.66",
     "@types/date-fns": "^2.6.0",
     "@types/jest": "^26.0.23",
@@ -18,10 +22,12 @@
     "@types/react": "^17.0.11",
     "@types/react-dom": "^17.0.8",
     "axios": "^0.21.1",
+    "bootstrap": "^5.0.2",
     "cookie-parser": "^1.4.5",
     "date-fns": "^2.22.1",
     "express-session": "^1.17.2",
     "google-auth-library": "^7.1.2",
+    "react-bootstrap": "^1.6.1",
     "react-google-login": "^5.2.2",
     "react-router-dom": "^5.2.0",
     "typescript": "^4.3.4"

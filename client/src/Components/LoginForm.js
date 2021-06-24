@@ -31,10 +31,12 @@ function LoginForm(props){
     const handleSubmit = (evt) => {
         
         evt.preventDefault()
-        fetch(`http://localhost:3000/users`, {
+        fetch(`http://localhost:3000/login`, {
             method: "POST",
+
             crossDomain: true, 
             withCredentials: true,
+
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "application/json"
@@ -48,8 +50,9 @@ function LoginForm(props){
         .then(data => {
             localStorage.setItem("token", data.jwt)
             props.handleLogin(data.user)
-            //history.push('/homepage')
-            
+
+			props.history.push("/HomePage")
+
         })
         setUsername("")
         setPassword("")
@@ -60,33 +63,36 @@ function LoginForm(props){
         padding: "20px",
         width: "80%"
     }
-    
-    
+
 	// const onSubmit = () => { 
 	// 	if(userFound){
 	// 	return  <Redirect  to="/home/" />
+
+
 	// }}
 
     return(
         <div>
             <div style={formDivStyle}>
             <h1>Log In</h1>
-            <form class="ui form" onSubmit={handleSubmit}>
-                <div class="field">
+            <form className="ui form" onSubmit={handleSubmit}>
+                <div className="field">
                     <label>Username</label>
                     <input value={username} onChange={handleUsernameChange} type="text" placeholder="username"/>
                 </div>
-                <div class="field">
+                <div className="field">
                     <label>Password</label>
                     <input value={password} onChange={handlePasswordChange} type="password" placeholder="password"/>
                 </div>
+
                 <Link to='/Calendar'>
-                <button class="ui button" type="submit" >Login</button>
+                <button className="ui button" type="submit" >Login</button>
                 </Link>
+
             </form>
         </div>
         </div>
     )
 } 
-
+// onClick={this.onSubmit}
 export default LoginForm
