@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-    skip_before_action :require_login, only: [:create]
+    # skip_before_action :require_login, only: [:create]
     def index
         events = Event.all
         render json: events
@@ -10,7 +10,7 @@ class EventsController < ApplicationController
     # end
 
     def create
-		event = Event.create!(event_params)
+		event = Event.create!(event_params, calendar_id: 1)
 		render json: event, status: :created
 	end 
 
@@ -23,7 +23,7 @@ class EventsController < ApplicationController
     private
 
     def event_params
-        params.permit(:calendar_id, :title, :start, :end)
+        params.permit(:title, :start, :end)
     end
 
 end

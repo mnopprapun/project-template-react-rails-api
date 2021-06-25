@@ -23,13 +23,14 @@ handleEvents = (eventData) =>{
   })
 }
 	  
-componentDidMount = () => {
-  axios.get(eventURL, {crossDomain: true}, {withCredentials: true})
-  .then(response => this.handleEvents(response.data.event))
-}
+// componentDidMount = () => {
+//   axios.get(eventURL, {crossDomain: true}, {withCredentials: true})
+//   .then(response => this.handleEvents(response.data.event))
+// }
 
 addNewEvent = (newEvent) => {
   const token = localStorage.getItem("token")
+  console.log(newEvent)
   let postOption ={
     method: "POST",
     headers: {
@@ -61,7 +62,8 @@ addNewEvent = (newEvent) => {
   
       if (title) {
         this.addNewEvent({
-          calendar_id: //calendar id from backend
+          calendar_id: 1,
+          user_id: this.props.user.id,
           title,
           start: selectInfo.startStr,
           end: selectInfo.endStr,
@@ -118,7 +120,7 @@ render (){
               right: 'dayGridMonth,timeGridWeek,timeGridDay'
             }}
             initialView='dayGridMonth'
-            editable={true}
+            // editable={true}
             selectable={true}
             selectMirror={true}
             dayMaxEvents={true}

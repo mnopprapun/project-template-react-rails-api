@@ -22,13 +22,13 @@ function App() {
     if(token){
       fetch(`http://localhost:3000/auto_login`, {
         headers: {
-          Authorization: `Bearer ${token}`
+          "Authorization": `Bearer ${token}`
         }
       })
       .then(resp => resp.json())
       .then(data => {
         setUser(data)
-         console.log(data)
+         //console.log(user)
       })
     }
   }, [])
@@ -89,7 +89,7 @@ function App() {
             </Route>
             <Route
             exact path='/Calendar'>
-            <Calendar/>
+            <Calendar user={user}/>
             </Route>
         </Switch>
         </BrowserRouter>
