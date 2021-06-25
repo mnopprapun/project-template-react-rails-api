@@ -16,15 +16,7 @@ function GetStarted() {
       <h1>My Calendar App</h1>
       <p>Organizing your life one day at a time</p>
       <div className='hero-btns'>
-      <Link to='/SignUpForm'>
-        <Button
-          className='btns'
-          buttonStyle='btn--outline'
-          buttonSize='btn--large'
-        >
-          Sign Up
-        </Button>
-        </Link>
+      
         <Link to='/LoginForm'>
         <Button
           className='btns'
