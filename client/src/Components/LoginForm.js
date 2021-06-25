@@ -53,7 +53,7 @@ function LoginForm(props){
             localStorage.setItem("token", data.jwt)
             props.handleLogin(data.user)
 
-			props.history.push("/HomePage")
+			//props.history.push("/HomePage")
 
         })
         setUsername("")
@@ -77,7 +77,7 @@ function LoginForm(props){
         <div>
             <div style={formDivStyle}>
             <h1>Log In</h1>
-            <form className="ui form" onSubmit={handleSubmit}>
+            <form className="ui form" >
                 <div className="field">
                     <label>Username</label>
                     <input value={username} onChange={handleUsernameChange} type="text" placeholder="username"/>
@@ -88,7 +88,7 @@ function LoginForm(props){
                 </div>
 
                 <Link to='/Calendar'>
-                <button className="ui button" type="submit" >Login</button>
+                <button className="ui button" type="submit" onClick={props.handleLogin}>Login</button>
                 </Link>
 
             </form>

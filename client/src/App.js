@@ -17,33 +17,34 @@ function App() {
   const [user, setUser] = useState({})
   const [form, setForm] = useState("")
 
-  useEffect(() => {
-    const token = localStorage.getItem("token")
-    if(token){
-      fetch(`http://localhost:3000/auto_login`, {
-        headers: {
-          "Authorization": `Bearer ${token}`
-        }
-      })
-      .then(resp => resp.json())
-      .then(data => {
-        setUser(data)
-         //console.log(user)
-      })
-    }
-  }, [])
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token")
+  //   if(token){
+  //     fetch(`http://localhost:3000/auto_login`, {
+  //       headers: {
+  //         "Authorization": `Bearer ${token}`
+  //       }
+  //     })
+  //     .then(resp => resp.json())
+  //     .then(data => {
+  //       setUser(data)
+  //        console.log(user)
+  //     })
+  //   }
+  // }, [])
 
   const handleLogin = (user) => {
     setUser(user)
+    handleAuthClick()
   }
 
-  const handleFormSwitch = (input) => {
-    setForm(input)
-  }
+  // const handleFormSwitch = (input) => {
+  //   setForm(input)
+  // }
 
   const handleAuthClick = () => {
     const token = localStorage.getItem("token")
-    fetch(`http://localhost:3000/user_is_authed`, {
+    fetch(`http://localhost:3000/auto_login`, {
       headers: {
         "Authorization": `Bearer ${token}`
       }

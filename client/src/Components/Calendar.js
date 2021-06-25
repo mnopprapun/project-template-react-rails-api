@@ -62,7 +62,7 @@ addNewEvent = (newEvent) => {
   
       if (title) {
         this.addNewEvent({
-          calendar_id: 1,
+          calendar_id: this.props.user.id,
           user_id: this.props.user.id,
           title,
           start: selectInfo.startStr,
